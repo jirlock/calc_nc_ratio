@@ -131,13 +131,13 @@ def main():
     pred = pred.cpu()
     pred = pred.data.numpy()
     pred = pred.reshape(-1,360,360)
+    with open('prediction.pickle', 'wb') as f:
+        pickle.dump(pred, f)
     for x in pred:
         c = len(np.where(x>=1)[0])
         n = len(np.where(x==2)[0])
         ncr = n / c
         nc_ratio.append(ncr)
-        plt.imshow(x)
-        plt.show()
 
     print(nc_ratio)
 
