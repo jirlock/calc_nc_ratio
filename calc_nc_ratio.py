@@ -8,6 +8,7 @@ import numpy as np
 import sys
 import matplotlib.pyplot as plt
 import os
+import pickle
 
 
 class Conv(nn.Module):
