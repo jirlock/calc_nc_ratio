@@ -136,6 +136,8 @@ def main():
         n = len(np.where(x==2)[0])
         ncr = n / c
         nc_ratio.append(ncr)
+        plt.imshow(x)
+        plt.show()
 
     print(nc_ratio)
 
