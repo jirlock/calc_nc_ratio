@@ -4,7 +4,11 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 import numpy as np
+
 import sys
+import matplotlib.pyplot as plt
+import os
+
 
 class Conv(nn.Module):
     def __init__(self, ins, outs, activation=F.relu):
@@ -99,21 +103,30 @@ class Net(nn.Module):
 
         return F.softmax(score)
 
+def rgb2gray(rgb):
+    gray = np.dot(rgb, [0.299, 0.587, 0.114])
+    gray = gray / 255.0
+    return gray
+
 def main():
+
+    model_path = 'models/1'
 
     images, nc_ratio = [], []
 
-    #0~1の値でできた、(画像の枚数,1,360,360)の4次元配列を用意して、入力とする。
+    for x in os.listdir('test_images'):
+        print(x)
+        img = plt.imread('test_images/%s' % x)
+        img = img[3:,:,:]
+        img = rgb2gray(img)
+        images.append(img)
+
     images = np.array(images).reshape(-1,1,360,360).astype(np.float32)
 
-    #モデルのパスを指定して、学習済みのパラメーターをロードする。
-    #NNのコードが書いてある必要がある。
     net = torch.load(model_path)
 
-    #画像が多くなると、全てはメモリに乗り切らないので分割する。
     out = net(Variable(torch.from_numpy(images)).cuda())
 
-    #nc比を計算する。
     _, pred = torch.max(out,1) #(n,360,360)で要素は0,1,2の配列
     pred = pred.cpu()
     pred = pred.data.numpy()
@@ -123,9 +136,9 @@ def main():
         n = len(np.where(x==2)[0])
         ncr = n / c
         nc_ratio.append(ncr)
-'''
+
+    print(nc_ratio)
 
 if __name__ == '__main__':
     main()
 
-'''
