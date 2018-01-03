@@ -9,11 +9,7 @@ with open(ipath, 'rb') as f:
 
 print(type(binary))
 
-img = Image.open(BytesIO(binary))
+image = np.asarray(Image.open(BytesIO(binary)))
 
-image = np.asarray(img)
-
-print(type(img))
-print(img)
 print(type(image))
 print(image.shape)
