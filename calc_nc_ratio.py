@@ -121,9 +121,7 @@ def main():
     for x in os.listdir('test_images'):
         print(x)
         y = 'test_images/%s' % x
-        '''
-        img = plt.imread('test_images/%s' % x)
-        '''
+        #img = plt.imread('test_images/%s' % x)
         with open(y,'rb') as f:
             binary = f.read()
         img = np.asarray(Image.open(BytesIO(binary)))
