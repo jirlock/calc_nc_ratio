@@ -9,6 +9,9 @@ import sys
 import matplotlib.pyplot as plt
 import os
 import pickle
+from PIL import Image
+from io import BytesIO
+
 
 
 class Conv(nn.Module):
@@ -117,7 +120,12 @@ def main():
 
     for x in os.listdir('test_images'):
         print(x)
+        '''
         img = plt.imread('test_images/%s' % x)
+        '''
+        with open(x,'rb') as f:
+            binary = f.read()
+        img = np.asarray(Image.open(BytesIO(binary)))
         img = img[3:,:,:]
         img = rgb2gray(img)
         images.append(img)
